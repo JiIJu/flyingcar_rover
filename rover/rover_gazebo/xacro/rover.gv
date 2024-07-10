@@ -1,0 +1,77 @@
+digraph G {
+node [shape=box];
+"base_link" [label="base_link"];
+"front_left_temp_link" [label="front_left_temp_link"];
+"front_left_suspension_link" [label="front_left_suspension_link"];
+"front_left_temp_link2" [label="front_left_temp_link2"];
+"front_left_steering_link" [label="front_left_steering_link"];
+"front_left_temp_link3" [label="front_left_temp_link3"];
+"ffl_wheel_link" [label="ffl_wheel_link"];
+"front_right_temp_link" [label="front_right_temp_link"];
+"front_right_suspension_link" [label="front_right_suspension_link"];
+"front_right_temp_link2" [label="front_right_temp_link2"];
+"front_right_steering_link" [label="front_right_steering_link"];
+"front_right_temp_link3" [label="front_right_temp_link3"];
+"ffr_wheel_link" [label="ffr_wheel_link"];
+"rear_left_temp_link" [label="rear_left_temp_link"];
+"rear_left_suspension_link" [label="rear_left_suspension_link"];
+"rear_left_temp_link2" [label="rear_left_temp_link2"];
+"rear_left_steering_link" [label="rear_left_steering_link"];
+"rear_left_temp_link3" [label="rear_left_temp_link3"];
+"rfl_wheel_link" [label="rfl_wheel_link"];
+"rear_right_temp_link" [label="rear_right_temp_link"];
+"rear_right_suspension_link" [label="rear_right_suspension_link"];
+"rear_right_temp_link2" [label="rear_right_temp_link2"];
+"rear_right_steering_link" [label="rear_right_steering_link"];
+"rear_right_temp_link3" [label="rear_right_temp_link3"];
+"rfr_wheel_link" [label="rfr_wheel_link"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"base_link" -> "ffl_temp_joint" [label="xyz: 0.10365 -0.49846 0.071114 \nrpy: 0 -0 0"]
+"ffl_temp_joint" -> "front_left_temp_link"
+"front_left_temp_link" -> "ffl_suspension_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"ffl_suspension_joint" -> "front_left_suspension_link"
+"front_left_suspension_link" -> "ffl_temp_joint2" [label="xyz: -0.061936 -0.2751 -0.048216 \nrpy: 0 -0 0"]
+"ffl_temp_joint2" -> "front_left_temp_link2"
+"front_left_temp_link2" -> "front_left_steering_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"front_left_steering_joint" -> "front_left_steering_link"
+"front_left_steering_link" -> "ffl_temp_joint3" [label="xyz: -0.0541 -0.0657 -0.0259 \nrpy: 0 -0 0"]
+"ffl_temp_joint3" -> "front_left_temp_link3"
+"front_left_temp_link3" -> "ffl_wheel_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"ffl_wheel_joint" -> "ffl_wheel_link"
+"base_link" -> "ffr_temp_joint" [label="xyz: 0.10427 0.49792 0.072906 \nrpy: 0 -0 0"]
+"ffr_temp_joint" -> "front_right_temp_link"
+"front_right_temp_link" -> "ffr_suspension_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"ffr_suspension_joint" -> "front_right_suspension_link"
+"front_right_suspension_link" -> "ffr_temp_joint2" [label="xyz: -0.061936 0.27526 -0.05453 \nrpy: 0 -0 0"]
+"ffr_temp_joint2" -> "front_right_temp_link2"
+"front_right_temp_link2" -> "front_right_steering_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"front_right_steering_joint" -> "front_right_steering_link"
+"front_right_steering_link" -> "ffr_temp_joint3" [label="xyz: -0.0023 0.0658 -0.0255 \nrpy: 0 -0 0"]
+"ffr_temp_joint3" -> "front_right_temp_link3"
+"front_right_temp_link3" -> "ffr_wheel_joint" [label="xyz: -0.0023 0.0658 -0.0255 \nrpy: 0 -0 0"]
+"ffr_wheel_joint" -> "ffr_wheel_link"
+"base_link" -> "rfl_temp_joint" [label="xyz: 1.3343 -0.49919 0.072726 \nrpy: 0 -0 0"]
+"rfl_temp_joint" -> "rear_left_temp_link"
+"rear_left_temp_link" -> "rfl_suspension_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"rfl_suspension_joint" -> "rear_left_suspension_link"
+"rear_left_suspension_link" -> "rfl_temp_joint2" [label="xyz: 0.0638 -0.2743 -0.054 \nrpy: 0 -0 0"]
+"rfl_temp_joint2" -> "rear_left_temp_link2"
+"rear_left_temp_link2" -> "rear_left_steering_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"rear_left_steering_joint" -> "rear_left_steering_link"
+"rear_left_steering_link" -> "rfl_temp_joint3" [label="xyz: -0.0137 -0.0657 -0.0259 \nrpy: 0 -0 0"]
+"rfl_temp_joint3" -> "rear_left_temp_link3"
+"rear_left_temp_link3" -> "rfl_wheel_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"rfl_wheel_joint" -> "rfl_wheel_link"
+"base_link" -> "rfr_temp_joint" [label="xyz: 1.3357 0.49906 0.071192 \nrpy: 0 -0 0"]
+"rfr_temp_joint" -> "rear_right_temp_link"
+"rear_right_temp_link" -> "rfr_suspension_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"rfr_suspension_joint" -> "rear_right_suspension_link"
+"rear_right_suspension_link" -> "rfr_temp_joint2" [label="xyz: 0.0638 0.2743 -0.054 \nrpy: 0 -0 0"]
+"rfr_temp_joint2" -> "rear_right_temp_link2"
+"rear_right_temp_link2" -> "rear_right_steering_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"rear_right_steering_joint" -> "rear_right_steering_link"
+"rear_right_steering_link" -> "rfr_temp_joint3" [label="xyz: -0.0137 0.0657 -0.0259 \nrpy: 0 -0 0"]
+"rfr_temp_joint3" -> "rear_right_temp_link3"
+"rear_right_temp_link3" -> "rfr_wheel_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"rfr_wheel_joint" -> "rfr_wheel_link"
+}

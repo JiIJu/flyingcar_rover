@@ -1,0 +1,984 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="rover" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find rover_gazebo)/xacro/rover.gazebo.xacro"/>
+  <!-- <link name="odom" />
+
+	<joint name="base_joint" type="fixed">
+		<parent link="odom"/>
+		<child link="base_link"/>
+	</joint> -->
+  <!-- <xacro:property name="base_mass" value="70" /> -->
+  <xacro:property name="base_mass" value="17" />
+  <xacro:property name="base_x_length" value="1.086" />
+  <xacro:property name="base_y_length" value="1.225" />
+  <xacro:property name="base_z_length" value="1.065" />
+
+  <xacro:property name="wheel_mass" value="13.6" />
+  <xacro:property name="wheel_x_length" value="0.4" />
+  <xacro:property name="wheel_y_length" value="0.2" />
+  <xacro:property name="wheel_z_length" value="0.4" />
+
+  <xacro:property name="steering_mass" value="0.3" />
+  <xacro:property name="steering_x_length" value="0.1" />
+  <xacro:property name="steering_y_length" value="0.2" />
+  <xacro:property name="steering_z_length" value="0.1" />
+
+  <xacro:property name="suspension_mass" value="0.3" />
+  <xacro:property name="suspension_x_length" value="0.1" />
+  <xacro:property name="suspension_y_length" value="0.2" />
+  <xacro:property name="suspension_z_length" value="0.1" />
+
+
+
+    <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.8 0 0.7"
+        rpy="0 0 0" />
+      <mass
+        value="${base_mass}" />
+        <inertia  
+        ixx="${base_mass*(base_y_length*base_y_length+base_z_length*base_z_length)/12}" 
+        ixy = "0" 
+        ixz = "0"
+        iyy="${base_mass*(base_x_length*base_x_length+base_z_length*base_z_length)/12}" 
+        iyz = "0"
+        izz="${base_mass*(base_x_length*base_x_length+base_y_length*base_y_length)/12}"
+  />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://rover/meshes/resize_rover/devide_rover/body.dae"/>
+      </geometry>
+      <material
+        name="">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://rover/meshes/resize_rover/devide_rover/body.dae"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name='front_left_temp_link'>
+		<inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.02" />
+            <inertia ixx="2.61666666667e-05" ixy="0.0" ixz="0.0" iyy="2.61666666667e-05" iyz="0.0" izz="3.6e-05"/>
+        </inertial>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.00000001" length="0.00000001"/>
+            </geometry>
+        </collision>
+		<visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.00000001" length="0.00000001"/>
+            </geometry>
+        </visual>
+	</link>
+  <joint
+  name="ffl_temp_joint"
+  type="fixed">
+   <origin xyz="0.10365 -0.49846 0.071114" rpy="0 0 0"/>
+  <parent
+    link="base_link" />
+  <child
+    link="front_left_temp_link" />
+  <axis
+    xyz="1 0 0" />
+</joint>
+  <link
+    name="front_left_suspension_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="${suspension_mass}" />
+        <inertia  
+        ixx="${suspension_mass*(suspension_y_length*suspension_y_length+suspension_z_length*suspension_z_length)/12}" 
+        ixy = "0" 
+        ixz = "0"
+        iyy="${suspension_mass*(suspension_x_length*suspension_x_length+suspension_z_length*suspension_z_length)/12}" 
+        iyz = "0"
+        izz="${suspension_mass*(suspension_x_length*suspension_x_length+suspension_y_length*suspension_y_length)/12}"
+  />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/FRLH_Suspension.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/FRLH_Suspension.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ffl_suspension_joint"
+    type="revolute">
+     <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent
+      link="front_left_temp_link" />
+    <child
+      link="front_left_suspension_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit effort="5" velocity="6.28"  lower="-2.1" upper="2.1" />
+  </joint>
+
+  <link
+    name="front_left_steering_link">
+    <inertial>
+      <origin
+        xyz="-0.0078125 1.2678E-05 0.060941"
+        rpy="0 0 0" />
+      <mass
+        value="${steering_mass}" />
+      <inertia
+        ixx="0.00022406"
+        ixy="-5.3036E-09"
+        ixz="-1.2289E-08"
+        iyy="0.00021285"
+        iyz="-2.5969E-08"
+        izz="0.00027948" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/FRLH_Steering.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/FRLH_Steering.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_left_steering_joint"
+    type="revolute">
+     <origin xyz="-0.061936 -0.2751 -0.048216" rpy="0 0 0"/>
+    <parent
+      link="front_left_suspension_link" />
+    <child
+      link="front_left_steering_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit effort="5" velocity="6.28"  lower="-2.1" upper="2.1" />
+  </joint>
+
+  <link
+    name="ffl_wheel_link">
+    <inertial>
+      <origin
+        xyz="-0.0016559 2.498E-05 -1.1185E-05"
+        rpy="0 0 0" />
+        <inertia  
+        ixx="${wheel_mass*(wheel_y_length*wheel_y_length+wheel_z_length*wheel_z_length)/12}" 
+        ixy = "0" 
+        ixz = "0"
+        iyy="${wheel_mass*(wheel_x_length*wheel_x_length+wheel_z_length*wheel_z_length)/12}" 
+        iyz = "0"
+        izz="${wheel_mass*(wheel_x_length*wheel_x_length+wheel_y_length*wheel_y_length)/12}"
+  />
+    <mass
+      value="${wheel_mass}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/FRLH_Wheel.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/FRLH_Wheel.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ffl_wheel_joint"
+    type="continuous">
+   <origin xyz="-0.0541 -0.0657 -0.0259" rpy="0 0 0"/>
+    <parent
+      link="front_left_steering_link" />
+    <child
+      link="ffl_wheel_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit effort="1.5" velocity="20"/>
+  </joint>
+  <link name='front_right_temp_link'>
+		<inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.02" />
+            <inertia ixx="2.61666666667e-05" ixy="0.0" ixz="0.0" iyy="2.61666666667e-05" iyz="0.0" izz="3.6e-05"/>
+        </inertial>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.00000001" length="0.00000001"/>
+            </geometry>
+        </collision>
+		<visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.00000001" length="0.00000001"/>
+            </geometry>
+        </visual>
+	</link>
+  <joint
+  name="ffr_temp_joint"
+  type="fixed">
+   <origin xyz="0.10427 0.49792 0.072906" rpy="0 0 0"/>
+  <parent
+    link="base_link" />
+  <child
+    link="front_right_temp_link" />
+  <axis
+    xyz="1 0 0" />
+</joint>
+  <link
+  name="front_right_suspension_link">
+  <inertial>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <mass
+      value="${suspension_mass}" />
+      <inertia  
+      ixx="${suspension_mass*(suspension_y_length*suspension_y_length+suspension_z_length*suspension_z_length)/12}" 
+      ixy = "0" 
+      ixz = "0"
+      iyy="${suspension_mass*(suspension_x_length*suspension_x_length+suspension_z_length*suspension_z_length)/12}" 
+      iyz = "0"
+      izz="${suspension_mass*(suspension_x_length*suspension_x_length+suspension_y_length*suspension_y_length)/12}"
+/>
+  </inertial>
+  <visual>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <geometry>
+      <mesh
+        filename="package://rover/meshes/resize_rover/devide_rover/FRRH_Suspension.dae" />
+    </geometry>
+    <material
+      name="">
+      <color
+        rgba="0.79216 0.81961 0.93333 1" />
+    </material>
+  </visual>
+  <collision>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <geometry>
+      <mesh
+        filename="package://rover/meshes/resize_rover/devide_rover/FRRH_Suspension.dae" />
+    </geometry>
+  </collision>
+</link>
+<joint
+  name="ffr_suspension_joint"
+  type="revolute">
+   <origin xyz="0 0 0" rpy="0 0 0"/>
+  <parent
+    link="front_right_temp_link" />
+  <child
+    link="front_right_suspension_link" />
+  <axis
+    xyz="1 0 0" />
+  <limit effort="5" velocity="6.28"  lower="-2.1" upper="2.1" />
+  <joint_properties damping="0.7" friction="0.5"/>
+</joint>
+
+  <link
+    name="front_right_steering_link">
+    <inertial>
+      <origin
+        xyz="0.0078149 5.813E-06 0.060941"
+        rpy="0 0 0" />
+      <mass
+        value="${steering_mass}" />
+      <inertia
+        ixx="0.00022406"
+        ixy="-6.6817E-09"
+        ixz="7.4999E-08"
+        iyy="0.00021285"
+        iyz="-1.9079E-08"
+        izz="0.00027948" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/FRRH_Steering.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/FRRH_Steering.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_right_steering_joint"
+    type="revolute">
+    <origin xyz="-0.061936 0.27526 -0.05453" rpy="0 0 0"/>
+    <parent
+      link="front_right_suspension_link" />
+    <child
+      link="front_right_steering_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit effort="5" velocity="6.28"  lower="-2.1" upper="2.1" />
+  </joint>
+
+  <link
+    name="ffr_wheel_link">
+    <inertial>
+      <origin
+        xyz="0.0016472 -1.6563E-05 2.7857E-05"
+        rpy="0 0 0" />
+        <inertia  
+        ixx="${wheel_mass*(wheel_y_length*wheel_y_length+wheel_z_length*wheel_z_length)/12}" 
+        ixy = "0" 
+        ixz = "0"
+        iyy="${wheel_mass*(wheel_x_length*wheel_x_length+wheel_z_length*wheel_z_length)/12}" 
+        iyz = "0"
+        izz="${wheel_mass*(wheel_x_length*wheel_x_length+wheel_y_length*wheel_y_length)/12}"
+  />
+    <mass
+      value="${wheel_mass}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/FRRH_Wheel.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/FRRH_Wheel.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="ffr_wheel_joint"
+    type="continuous">
+    <origin xyz="-0.0023 0.0658 -0.0255" rpy="0 0 0"/>
+    <parent
+      link="front_right_steering_link" />
+    <child
+      link="ffr_wheel_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit effort="1.5" velocity="20"/>
+  </joint>
+  <link name='rear_left_temp_link'>
+		<inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.02" />
+            <inertia ixx="2.61666666667e-05" ixy="0.0" ixz="0.0" iyy="2.61666666667e-05" iyz="0.0" izz="3.6e-05"/>
+        </inertial>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.00000001" length="0.00000001"/>
+            </geometry>
+        </collision>
+		<visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.00000001" length="0.00000001"/>
+            </geometry>
+        </visual>
+	</link>
+  <joint
+  name="rfl_temp_joint"
+  type="fixed">
+   <origin xyz="1.3343 -0.49919 0.072726" rpy="0 0 0"/>
+  <parent
+    link="base_link" />
+  <child
+    link="rear_left_temp_link" />
+  <axis
+    xyz="1 0 0" />
+</joint>
+  <link
+  name="rear_left_suspension_link">
+  <inertial>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <mass
+      value="${suspension_mass}" />
+      <inertia  
+      ixx="${suspension_mass*(suspension_y_length*suspension_y_length+suspension_z_length*suspension_z_length)/12}" 
+      ixy = "0" 
+      ixz = "0"
+      iyy="${suspension_mass*(suspension_x_length*suspension_x_length+suspension_z_length*suspension_z_length)/12}" 
+      iyz = "0"
+      izz="${suspension_mass*(suspension_x_length*suspension_x_length+suspension_y_length*suspension_y_length)/12}"
+/>
+  </inertial>
+  <visual>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <geometry>
+      <mesh
+        filename="package://rover/meshes/resize_rover/devide_rover/RRLH_Suspension.dae" />
+    </geometry>
+    <material
+      name="">
+      <color
+        rgba="0.79216 0.81961 0.93333 1" />
+    </material>
+  </visual>
+  <collision>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <geometry>
+      <mesh
+        filename="package://rover/meshes/resize_rover/devide_rover/RRLH_Suspension.dae" />
+    </geometry>
+  </collision>
+</link>
+<joint
+  name="rfl_suspension_joint"
+  type="revolute">
+   <origin xyz="0 0 0" rpy="0 0 0"/>
+  <parent
+    link="rear_left_temp_link" />
+  <child
+    link="rear_left_suspension_link" />
+  <axis
+    xyz="1 0 0" />
+  <limit effort="5" velocity="6.28"  lower="-2.1" upper="2.1" />
+  <joint_properties damping="0.7" friction="0.5"/>
+</joint>
+
+  <link
+    name="rear_left_steering_link">
+    <inertial>
+      <origin
+        xyz="-0.0079979 9.6737E-06 0.062261"
+        rpy="0 0 0" />
+      <mass
+        value="${steering_mass}" />
+        <inertia
+        ixx="0.00022406"
+        ixy="-6.6817E-09"
+        ixz="7.4999E-08"
+        iyy="0.00021285"
+        iyz="-1.9079E-08"
+        izz="0.00027948" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/RRLH_Steering.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/RRLH_Steering.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rear_left_steering_joint"
+    type="revolute">
+    <origin xyz="0.0638 -0.2743 -0.054" rpy="0 0 0" />
+    <parent
+      link="rear_left_suspension_link" />
+    <child
+      link="rear_left_steering_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit effort="5" velocity="6.28"  lower="-2.1" upper="2.1" />
+  </joint>
+
+  <link
+    name="rfl_wheel_link">
+    <inertial>
+      <origin
+        xyz="-0.0016588 2.035E-05 8.7225E-06"
+        rpy="0 0 0" />
+        <inertia  
+        ixx="${wheel_mass*(wheel_y_length*wheel_y_length+wheel_z_length*wheel_z_length)/12}" 
+        ixy = "0" 
+        ixz = "0"
+        iyy="${wheel_mass*(wheel_x_length*wheel_x_length+wheel_z_length*wheel_z_length)/12}" 
+        iyz = "0"
+        izz="${wheel_mass*(wheel_x_length*wheel_x_length+wheel_y_length*wheel_y_length)/12}"
+  />
+    <mass
+      value="${wheel_mass}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/RRLH_Wheel.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rover/meshes/resize_rover/devide_rover/RRLH_Wheel.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rfl_wheel_joint"
+    type="continuous">
+    <origin xyz="-0.0137 -0.0657 -0.0259" rpy="0 0 0" />
+    <parent
+      link="rear_left_steering_link" />
+    <child
+      link="rfl_wheel_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit effort="1.5" velocity="20"/>
+  </joint>
+  <link name='rear_right_temp_link'>
+		<inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.02" />
+            <inertia ixx="2.61666666667e-05" ixy="0.0" ixz="0.0" iyy="2.61666666667e-05" iyz="0.0" izz="3.6e-05"/>
+        </inertial>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.00000001" length="0.00000001"/>
+            </geometry>
+        </collision>
+		<visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.00000001" length="0.00000001"/>
+            </geometry>
+        </visual>
+	</link>
+  <joint
+  name="rfr_temp_joint"
+  type="fixed">
+   <origin xyz="1.3357 0.49906 0.071192" rpy="0 0 0"/>
+  <parent
+    link="base_link" />
+  <child
+    link="rear_right_temp_link" />
+  <axis
+    xyz="1 0 0" />
+</joint>
+  <link
+  name="rear_right_suspension_link">
+  <inertial>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <mass
+      value="${suspension_mass}" />
+      <inertia  
+      ixx="${suspension_mass*(suspension_y_length*suspension_y_length+suspension_z_length*suspension_z_length)/12}" 
+      ixy = "0" 
+      ixz = "0"
+      iyy="${suspension_mass*(suspension_x_length*suspension_x_length+suspension_z_length*suspension_z_length)/12}" 
+      iyz = "0"
+      izz="${suspension_mass*(suspension_x_length*suspension_x_length+suspension_y_length*suspension_y_length)/12}"
+/>
+  </inertial>
+  <visual>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <geometry>
+      <mesh
+        filename="package://rover/meshes/resize_rover/devide_rover/RRRH_Suspension.dae" />
+    </geometry>
+    <material
+      name="">
+      <color
+        rgba="0.79216 0.81961 0.93333 1" />
+    </material>
+  </visual>
+  <collision>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <geometry>
+      <mesh
+        filename="package://rover/meshes/resize_rover/devide_rover/RRRH_Suspension.dae" />
+    </geometry>
+  </collision>
+</link>
+<joint
+  name="rfr_suspension_joint"
+  type="revolute">
+   <origin xyz="0 0 0" rpy="0 0 0"/>
+  <parent
+    link="rear_right_temp_link" />
+  <child
+    link="rear_right_suspension_link" />
+  <axis
+    xyz="1 0 0" />
+  <limit effort="5" velocity="6.28"  lower="-2.1" upper="2.1" />
+  <joint_properties damping="0.7" friction="0.5"/>
+</joint>
+
+  <link
+    name="rear_right_steering_link">
+    <inertial>
+      <origin
+        xyz="0.0077929 0.00010875 0.060976"
+        rpy="0 0 0" />
+      <mass
+        value="${steering_mass}" />
+        <inertia
+        ixx="0.00022406"
+        ixy="-6.6817E-09"
+        ixz="7.4999E-08"
+        iyy="0.00021285"
+        iyz="-1.9079E-08"
+        izz="0.00027948" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+        filename="package://rover/meshes/resize_rover/devide_rover/RRRH_Steering.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+        filename="package://rover/meshes/resize_rover/devide_rover/RRRH_Steering.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rear_right_steering_joint"
+    type="revolute">
+    <origin xyz="0.0638 0.2743 -0.054" rpy="0 0 0" />
+    <parent
+      link="rear_right_suspension_link" />
+    <child
+      link="rear_right_steering_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit effort="5" velocity="6.28"  lower="-2.1" upper="2.1" />
+  </joint>
+
+  <link
+    name="rfr_wheel_link">
+    <inertial>
+      <origin
+        xyz="0.0016568 3.1298E-06 9.7006E-06"
+        rpy="0 0 0" />
+        <inertia  
+        ixx="${wheel_mass*(wheel_y_length*wheel_y_length+wheel_z_length*wheel_z_length)/12}" 
+        ixy = "0" 
+        ixz = "0"
+        iyy="${wheel_mass*(wheel_x_length*wheel_x_length+wheel_z_length*wheel_z_length)/12}" 
+        iyz = "0"
+        izz="${wheel_mass*(wheel_x_length*wheel_x_length+wheel_y_length*wheel_y_length)/12}"
+  />
+    <mass
+      value="${wheel_mass}" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+        filename="package://rover/meshes/resize_rover/devide_rover/RRRH_Wheel.dae" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+        filename="package://rover/meshes/resize_rover/devide_rover/RRRH_Wheel.dae" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rfr_wheel_joint"
+    type="continuous">
+    <origin xyz="-0.0137 0.0657 -0.0259" rpy="0 0 0" />
+    <parent
+      link="rear_right_steering_link" />
+    <child
+      link="rfr_wheel_link" />
+    <axis
+      xyz="0 1 0" />
+      <limit effort="1.5" velocity="20"/>
+  </joint>
+
+  <transmission name="front_left_suspension_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="ffl_suspension_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="front_left_suspension_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>100</mechanicalReduction>
+    </actuator>
+  </transmission>
+  
+  <!-- Front Right Suspension Transmission -->
+  <transmission name="front_right_suspension_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="ffr_suspension_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="front_right_suspension_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>100</mechanicalReduction>
+    </actuator>
+  </transmission>
+  
+  <!-- Rear Left Suspension Transmission -->
+  <transmission name="rear_left_suspension_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rfl_suspension_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rear_left_suspension_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>100</mechanicalReduction>
+    </actuator>
+  </transmission>
+  
+  <!-- Rear Right Suspension Transmission -->
+  <transmission name="rear_right_suspension_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rfr_suspension_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rear_right_suspension_motor">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>100</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+	<transmission name="front_left_steering_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="front_left_steering_joint">
+		<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+	  <actuator name="front_left_steering_motor">
+		<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		<mechanicalReduction>30</mechanicalReduction>
+      </actuator>
+	</transmission>
+
+	<transmission name="front_right_steering_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="front_right_steering_joint">
+		<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+	  <actuator name="front_right_steering_motor">
+		<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		<mechanicalReduction>30</mechanicalReduction>
+      </actuator>
+	</transmission>
+
+  	<transmission name="rear_left_steering_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="rear_left_steering_joint">
+		<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+	  <actuator name="rear_left_steering_motor">
+		<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		<mechanicalReduction>30</mechanicalReduction>
+      </actuator>
+	</transmission>
+
+  	<transmission name="rear_right_steering_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="rear_right_steering_joint">
+		<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+	  <actuator name="rear_right_steering_motor">
+		<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		<mechanicalReduction>30</mechanicalReduction>
+      </actuator>
+	</transmission>
+
+  	<transmission name="ffl_wheel_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="ffl_wheel_joint">
+		<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+	  <actuator name="ffl_wheel_motor">
+		<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+		<mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+	</transmission>
+  
+    	<transmission name="ffr_wheel_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="ffr_wheel_joint">
+		<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+	  <actuator name="ffr_wheel_motor">
+		<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+		<mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+	</transmission>
+
+    	<transmission name="rfl_wheel_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="rfl_wheel_joint">
+		<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+	  <actuator name="rfl_wheel_motor">
+		<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+		<mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+	</transmission>
+
+    	<transmission name="rfr_wheel_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="rfr_wheel_joint">
+		<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+	  <actuator name="rfr_wheel_motor">
+		<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+		<mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+	</transmission>
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/rover</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+
+
+
+
+
+</robot>

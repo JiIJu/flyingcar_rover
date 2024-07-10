@@ -1,0 +1,18 @@
+gazebo_ros_control:   
+  pid_gains:
+    ffl_suspension_joint:
+      p: 1.
+      i: 0 
+      d: 0
+    ffr_suspension_joint:
+      p: 1.
+      i: 0 
+      d: 0
+    rfl_suspension_joint:
+      p: 1.
+      i: 0
+      d: 0
+    rfr_suspension_joint:
+      p: 1.
+      i: 0
+      d: 0

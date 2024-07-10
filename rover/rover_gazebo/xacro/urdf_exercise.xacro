@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<robot name="ranger_mini" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- <xacro:include filename="$(find ranger_mini_gazebo)/xacro/ranger_rover.gazebo.xacro"/> -->
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="17.8446713847014" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+      <mesh
+          filename="package://ranger_mini/meshes/curiocity/suspension_steer_B_L.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+      <mesh
+          filename="package://ranger_mini/meshes/curiocity/suspension_steer_B_L.dae" />
+      </geometry>
+    </collision>
+  </link>
+
+</robot>

@@ -1,0 +1,26 @@
+# Controller for differential drive wheel systems 
+# http://wiki.ros.org/diff_drive_controller
+
+rover:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+  
+  # Position Controllers ---------------------------------------
+  ffl_suspension_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: ffl_suspension_joint
+    pid: {p: 1.0, i: 0.0, d: 0.0}
+  rfl_suspension_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: rfl_suspension_joint
+    pid: {p: 1.0, i: 0.0, d: 0.0}
+  ffr_suspension_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: ffr_suspension_joint
+    pid: {p: 1.0, i: 0.0, d: 0.0}
+  rfr_suspension_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: rfr_suspension_joint
+    pid: {p: 1.0, i: 0.0, d: 0.0}
